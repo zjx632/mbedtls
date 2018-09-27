@@ -85,14 +85,14 @@ static int mbedtls_constant_time_memcmp( const void *v1, const void *v2, size_t 
 }
 #endif /* MBEDTLS_GCM_C || MBEDTLS_CHACHAPOLY_C */
 
-static int supported_init = 0;
+static int cipher_supported_init = 0;
 
 const int *mbedtls_cipher_list( void )
 {
     const mbedtls_cipher_definition_t *def;
     int *type;
 
-    if( ! supported_init )
+    if( ! cipher_supported_init )
     {
         def = mbedtls_cipher_definitions;
         type = mbedtls_cipher_supported;
@@ -102,7 +102,7 @@ const int *mbedtls_cipher_list( void )
 
         *type = 0;
 
-        supported_init = 1;
+        cipher_supported_init = 1;
     }
 
     return( mbedtls_cipher_supported );

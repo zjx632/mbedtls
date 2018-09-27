@@ -158,7 +158,7 @@ void mbedtls_sha512_starts( mbedtls_sha512_context *ctx,
 /*
  * Round constants
  */
-static const uint64_t K[80] =
+static const uint64_t sha512_K[80] =
 {
     UL64(0x428A2F98D728AE22),  UL64(0x7137449123EF65CD),
     UL64(0xB5C0FBCFEC4D3B2F),  UL64(0xE9B5DBA58189DBBC),
@@ -251,14 +251,14 @@ int mbedtls_internal_sha512_process( mbedtls_sha512_context *ctx,
 
     do
     {
-        P( A, B, C, D, E, F, G, H, W[i], K[i] ); i++;
-        P( H, A, B, C, D, E, F, G, W[i], K[i] ); i++;
-        P( G, H, A, B, C, D, E, F, W[i], K[i] ); i++;
-        P( F, G, H, A, B, C, D, E, W[i], K[i] ); i++;
-        P( E, F, G, H, A, B, C, D, W[i], K[i] ); i++;
-        P( D, E, F, G, H, A, B, C, W[i], K[i] ); i++;
-        P( C, D, E, F, G, H, A, B, W[i], K[i] ); i++;
-        P( B, C, D, E, F, G, H, A, W[i], K[i] ); i++;
+        P( A, B, C, D, E, F, G, H, W[i], sha512_K[i] ); i++;
+        P( H, A, B, C, D, E, F, G, W[i], sha512_K[i] ); i++;
+        P( G, H, A, B, C, D, E, F, W[i], sha512_K[i] ); i++;
+        P( F, G, H, A, B, C, D, E, W[i], sha512_K[i] ); i++;
+        P( E, F, G, H, A, B, C, D, W[i], sha512_K[i] ); i++;
+        P( D, E, F, G, H, A, B, C, W[i], sha512_K[i] ); i++;
+        P( C, D, E, F, G, H, A, B, W[i], sha512_K[i] ); i++;
+        P( B, C, D, E, F, G, H, A, W[i], sha512_K[i] ); i++;
     }
     while( i < 80 );
 

@@ -2185,7 +2185,7 @@ const int *mbedtls_ssl_list_ciphersuites( void )
 #define MAX_CIPHERSUITES    sizeof( ciphersuite_definitions     ) /         \
                             sizeof( ciphersuite_definitions[0]  )
 static int supported_ciphersuites[MAX_CIPHERSUITES];
-static int supported_init = 0;
+static int ciphersuites_supported_init = 0;
 
 const int *mbedtls_ssl_list_ciphersuites( void )
 {
@@ -2193,7 +2193,7 @@ const int *mbedtls_ssl_list_ciphersuites( void )
      * On initial call filter out all ciphersuites not supported by current
      * build based on presence in the ciphersuite_definitions.
      */
-    if( supported_init == 0 )
+    if( ciphersuites_supported_init == 0 )
     {
         const int *p;
         int *q;
@@ -2213,7 +2213,7 @@ const int *mbedtls_ssl_list_ciphersuites( void )
         }
         *q = 0;
 
-        supported_init = 1;
+        ciphersuites_supported_init = 1;
     }
 
     return( supported_ciphersuites );

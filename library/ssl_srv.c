@@ -149,7 +149,7 @@ static int ssl_parse_servername_ext( mbedtls_ssl_context *ssl,
 }
 #endif /* MBEDTLS_SSL_SERVER_NAME_INDICATION */
 
-static int ssl_parse_renegotiation_info( mbedtls_ssl_context *ssl,
+static int ssl_parse_renegotiation_info_srv( mbedtls_ssl_context *ssl,
                                          const unsigned char *buf,
                                          size_t len )
 {
@@ -415,7 +415,7 @@ static int ssl_parse_ecjpake_kkpp( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED */
 
 #if defined(MBEDTLS_SSL_MAX_FRAGMENT_LENGTH)
-static int ssl_parse_max_fragment_length_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_max_fragment_length_ext_srv( mbedtls_ssl_context *ssl,
                                               const unsigned char *buf,
                                               size_t len )
 {
@@ -434,7 +434,7 @@ static int ssl_parse_max_fragment_length_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_MAX_FRAGMENT_LENGTH */
 
 #if defined(MBEDTLS_SSL_TRUNCATED_HMAC)
-static int ssl_parse_truncated_hmac_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_truncated_hmac_ext_srv( mbedtls_ssl_context *ssl,
                                          const unsigned char *buf,
                                          size_t len )
 {
@@ -456,7 +456,7 @@ static int ssl_parse_truncated_hmac_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_TRUNCATED_HMAC */
 
 #if defined(MBEDTLS_SSL_ENCRYPT_THEN_MAC)
-static int ssl_parse_encrypt_then_mac_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_encrypt_then_mac_ext_srv( mbedtls_ssl_context *ssl,
                                       const unsigned char *buf,
                                       size_t len )
 {
@@ -481,7 +481,7 @@ static int ssl_parse_encrypt_then_mac_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_ENCRYPT_THEN_MAC */
 
 #if defined(MBEDTLS_SSL_EXTENDED_MASTER_SECRET)
-static int ssl_parse_extended_ms_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_extended_ms_ext_srv( mbedtls_ssl_context *ssl,
                                       const unsigned char *buf,
                                       size_t len )
 {
@@ -506,7 +506,7 @@ static int ssl_parse_extended_ms_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_EXTENDED_MASTER_SECRET */
 
 #if defined(MBEDTLS_SSL_SESSION_TICKETS)
-static int ssl_parse_session_ticket_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_session_ticket_ext_srv( mbedtls_ssl_context *ssl,
                                          unsigned char *buf,
                                          size_t len )
 {
@@ -580,7 +580,7 @@ static int ssl_parse_session_ticket_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_SESSION_TICKETS */
 
 #if defined(MBEDTLS_SSL_ALPN)
-static int ssl_parse_alpn_ext( mbedtls_ssl_context *ssl,
+static int ssl_parse_alpn_ext_srv( mbedtls_ssl_context *ssl,
                                const unsigned char *buf, size_t len )
 {
     size_t list_len, cur_len, ours_len;
@@ -1713,7 +1713,7 @@ read_record_header:
                 renegotiation_info_seen = 1;
 #endif
 
-                ret = ssl_parse_renegotiation_info( ssl, ext + 4, ext_size );
+                ret = ssl_parse_renegotiation_info_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1767,7 +1767,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_MAX_FRAGMENT_LENGTH:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found max fragment length extension" ) );
 
-                ret = ssl_parse_max_fragment_length_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_max_fragment_length_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1777,7 +1777,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_TRUNCATED_HMAC:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found truncated hmac extension" ) );
 
-                ret = ssl_parse_truncated_hmac_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_truncated_hmac_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1787,7 +1787,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_ENCRYPT_THEN_MAC:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found encrypt then mac extension" ) );
 
-                ret = ssl_parse_encrypt_then_mac_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_encrypt_then_mac_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1797,7 +1797,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_EXTENDED_MASTER_SECRET:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found extended master secret extension" ) );
 
-                ret = ssl_parse_extended_ms_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_extended_ms_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1807,7 +1807,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_SESSION_TICKET:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found session ticket extension" ) );
 
-                ret = ssl_parse_session_ticket_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_session_ticket_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -1817,7 +1817,7 @@ read_record_header:
             case MBEDTLS_TLS_EXT_ALPN:
                 MBEDTLS_SSL_DEBUG_MSG( 3, ( "found alpn extension" ) );
 
-                ret = ssl_parse_alpn_ext( ssl, ext + 4, ext_size );
+                ret = ssl_parse_alpn_ext_srv( ssl, ext + 4, ext_size );
                 if( ret != 0 )
                     return( ret );
                 break;
@@ -2036,7 +2036,7 @@ have_ciphersuite:
 }
 
 #if defined(MBEDTLS_SSL_TRUNCATED_HMAC)
-static void ssl_write_truncated_hmac_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_truncated_hmac_ext_srv( mbedtls_ssl_context *ssl,
                                           unsigned char *buf,
                                           size_t *olen )
 {
@@ -2061,7 +2061,7 @@ static void ssl_write_truncated_hmac_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_TRUNCATED_HMAC */
 
 #if defined(MBEDTLS_SSL_ENCRYPT_THEN_MAC)
-static void ssl_write_encrypt_then_mac_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_encrypt_then_mac_ext_srv( mbedtls_ssl_context *ssl,
                                             unsigned char *buf,
                                             size_t *olen )
 {
@@ -2104,7 +2104,7 @@ static void ssl_write_encrypt_then_mac_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_ENCRYPT_THEN_MAC */
 
 #if defined(MBEDTLS_SSL_EXTENDED_MASTER_SECRET)
-static void ssl_write_extended_ms_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_extended_ms_ext_srv_srv( mbedtls_ssl_context *ssl,
                                        unsigned char *buf,
                                        size_t *olen )
 {
@@ -2131,7 +2131,7 @@ static void ssl_write_extended_ms_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_SSL_EXTENDED_MASTER_SECRET */
 
 #if defined(MBEDTLS_SSL_SESSION_TICKETS)
-static void ssl_write_session_ticket_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_session_ticket_ext_srv( mbedtls_ssl_context *ssl,
                                           unsigned char *buf,
                                           size_t *olen )
 {
@@ -2155,7 +2155,7 @@ static void ssl_write_session_ticket_ext( mbedtls_ssl_context *ssl,
 }
 #endif /* MBEDTLS_SSL_SESSION_TICKETS */
 
-static void ssl_write_renegotiation_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_renegotiation_ext_srv( mbedtls_ssl_context *ssl,
                                          unsigned char *buf,
                                          size_t *olen )
 {
@@ -2196,7 +2196,7 @@ static void ssl_write_renegotiation_ext( mbedtls_ssl_context *ssl,
 }
 
 #if defined(MBEDTLS_SSL_MAX_FRAGMENT_LENGTH)
-static void ssl_write_max_fragment_length_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_max_fragment_length_ext_srv( mbedtls_ssl_context *ssl,
                                                unsigned char *buf,
                                                size_t *olen )
 {
@@ -2224,7 +2224,7 @@ static void ssl_write_max_fragment_length_ext( mbedtls_ssl_context *ssl,
 
 #if defined(MBEDTLS_ECDH_C) || defined(MBEDTLS_ECDSA_C) || \
     defined(MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED)
-static void ssl_write_supported_point_formats_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_supported_point_formats_ext_srv( mbedtls_ssl_context *ssl,
                                                    unsigned char *buf,
                                                    size_t *olen )
 {
@@ -2298,7 +2298,7 @@ static void ssl_write_ecjpake_kkpp_ext( mbedtls_ssl_context *ssl,
 #endif /* MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED */
 
 #if defined(MBEDTLS_SSL_ALPN )
-static void ssl_write_alpn_ext( mbedtls_ssl_context *ssl,
+static void ssl_write_alpn_ext_srv( mbedtls_ssl_context *ssl,
                                 unsigned char *buf, size_t *olen )
 {
     if( ssl->alpn_chosen == NULL )
@@ -2476,7 +2476,7 @@ static int ssl_write_server_hello( mbedtls_ssl_context *ssl )
 
     /*
      * Resume is 0  by default, see ssl_handshake_init().
-     * It may be already set to 1 by ssl_parse_session_ticket_ext().
+     * It may be already set to 1 by ssl_parse_session_ticket_ext_srv().
      * If not, try looking up session ID in our cache.
      */
     if( ssl->handshake->resume == 0 &&
@@ -2568,31 +2568,31 @@ static int ssl_write_server_hello( mbedtls_ssl_context *ssl )
     /*
      *  First write extensions, then the total length
      */
-    ssl_write_renegotiation_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_renegotiation_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 
 #if defined(MBEDTLS_SSL_MAX_FRAGMENT_LENGTH)
-    ssl_write_max_fragment_length_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_max_fragment_length_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
 #if defined(MBEDTLS_SSL_TRUNCATED_HMAC)
-    ssl_write_truncated_hmac_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_truncated_hmac_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
 #if defined(MBEDTLS_SSL_ENCRYPT_THEN_MAC)
-    ssl_write_encrypt_then_mac_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_encrypt_then_mac_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
 #if defined(MBEDTLS_SSL_EXTENDED_MASTER_SECRET)
-    ssl_write_extended_ms_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_extended_ms_ext_srv_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
 #if defined(MBEDTLS_SSL_SESSION_TICKETS)
-    ssl_write_session_ticket_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_session_ticket_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
@@ -2601,7 +2601,7 @@ static int ssl_write_server_hello( mbedtls_ssl_context *ssl )
     if ( mbedtls_ssl_ciphersuite_uses_ec(
          mbedtls_ssl_ciphersuite_from_id( ssl->session_negotiate->ciphersuite ) ) )
     {
-        ssl_write_supported_point_formats_ext( ssl, p + 2 + ext_len, &olen );
+        ssl_write_supported_point_formats_ext_srv( ssl, p + 2 + ext_len, &olen );
         ext_len += olen;
     }
 #endif
@@ -2612,7 +2612,7 @@ static int ssl_write_server_hello( mbedtls_ssl_context *ssl )
 #endif
 
 #if defined(MBEDTLS_SSL_ALPN)
-    ssl_write_alpn_ext( ssl, p + 2 + ext_len, &olen );
+    ssl_write_alpn_ext_srv( ssl, p + 2 + ext_len, &olen );
     ext_len += olen;
 #endif
 
@@ -2843,7 +2843,7 @@ static int ssl_write_certificate_request( mbedtls_ssl_context *ssl )
 
 #if defined(MBEDTLS_KEY_EXCHANGE_ECDH_RSA_ENABLED) || \
     defined(MBEDTLS_KEY_EXCHANGE_ECDH_ECDSA_ENABLED)
-static int ssl_get_ecdh_params_from_cert( mbedtls_ssl_context *ssl )
+static int ssl_get_ecdh_params_from_cert_srv( mbedtls_ssl_context *ssl )
 {
     int ret;
 
@@ -3279,7 +3279,7 @@ static int ssl_write_server_key_exchange( mbedtls_ssl_context *ssl )
 #if defined(MBEDTLS_KEY_EXCHANGE__SOME__ECDH_ENABLED)
         if( mbedtls_ssl_ciphersuite_uses_ecdh( ciphersuite_info ) )
         {
-            ssl_get_ecdh_params_from_cert( ssl );
+            ssl_get_ecdh_params_from_cert_srv( ssl );
         }
 #endif /* MBEDTLS_KEY_EXCHANGE__SOME__ECDH_ENABLED */
 
